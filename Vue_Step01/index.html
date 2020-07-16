@@ -26,6 +26,8 @@
     <h3>Computed properties are same as your data properties except you can not v-model bind them all they do is providing some logical functinality before you display that  </h3>
     <h3>What is difrence between v-show and v-if</h3>
     <h3>v-show apply css property on tag instead of Dom manupulation style:"display:none"</h3>
+    <h3>what is life sycle hook ?</h3>
+    <h3>if something happens to your component or vue instance life sycle hook will be called</h3>
 
     <div id="app">
         {{message}}
@@ -43,9 +45,7 @@
             </span>
         </p>
         <span v-for="(item,index) in list">
-           <span>
-               {{index+1}} . {{item.name}}
-           </span>
+           <span-component v-bind:item="item" v-bind:index="index"></span-component>
         </span>
         <span v-for="item in filterList">
             <span>
@@ -55,6 +55,12 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
+        Vue.comonent('span-component',{
+            props:['item','index'],
+            template:` <span v-bind:class="item.color">
+               {{index+1}} . {{item.name}}
+           </span>`
+        })
         var app=new Vue({
             el:"#app",
             data:{
@@ -92,6 +98,14 @@
                         return x.indexOf("a")===0
                     })
                 }
+            },
+            created()
+            {
+              console.log('created');
+            },
+            mounted()
+            {
+              
             }
         })
     </script>
