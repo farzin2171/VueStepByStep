@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Step 01</title>
+    <style>
+        .text-red{
+            color: red;
+        }
+        .text-green {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h3>What this Id=app meanes is basically this is a scope in which our Vue app operates. so right now this vue app is a component</h3>
+    <h3>another important thing is you can access your vue component through your browser console, type in the console app </h3>
+    <h3>we can bind data by v-model it sends out an evenet</h3>
+    <h3>we can bind data by v-bind:value= it does not send out an evenet</h3>
+    <h3>by v-on we sends out event to vue component</h3>
+    <h3>V-bind is like a pipe into the elemnt and v-on is pipe out of element</h3>
+    <h3>whenever you want to call something from the app use this</h3>
+    <h3>What is computed properties ? computed properties basically combined your inputs and allow you to do some functianlity before dispaying variable</h3>
+    <h3>Computed properties are same as your data properties except you can not v-model bind them all they do is providing some logical functinality before you display that  </h3>
+    <h3>What is difrence between v-show and v-if</h3>
+    <h3>v-show apply css property on tag instead of Dom manupulation style:"display:none"</h3>
+
+    <div id="app">
+        {{message}}
+        <input v-model="message">
+        <input v-bind:value="message" v-on:input="message=$event.target.value">
+        <div>
+            <input v-model="loginForm.username">
+            <input v-model="loginForm.password">
+
+        </div>
+        <p>
+            <button v-on:click="user={name:'bob'}"></button>
+            <span v-if="user">
+                {{user.name}}
+            </span>
+        </p>
+        <span v-for="(item,index) in list">
+           <span>
+               {{index+1}} . {{item.name}}
+           </span>
+        </span>
+        <span v-for="item in filterList">
+            <span>
+                {{item}}
+            </span>
+         </span>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app=new Vue({
+            el:"#app",
+            data:{
+                message:"Hello world",
+                loginForm:{
+                    username:"",
+                    pasword:""
+                },
+                list:[
+                    {name:"a-foo",color:'text-red'},
+                    {name:"a- john",color:'text-green'},
+                    {name:"b- doe",color:'text-red'}
+                ],
+                user:null
+            },
+            methods:{
+                submitForm(){
+                    console.log("Submitting login form",this.loginForm);
+                    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
+                    //Or you can use arrow function
+                    var callLog=function(){
+                        this.log("Logging something")
+                    }.bind(this);
+                },
+                log(v){
+                    console.log(v);
+                }
+            },
+            computed:{
+                formInfo:function(){
+                    return this.loginForm.username + " "+this.loginForm.pasword;
+                },
+                filterList:function(){
+                    return this.list.filter(x=>{
+                        return x.indexOf("a")===0
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>
