@@ -7,3 +7,4 @@
 7 - npm install webpack -D
 8-crate webpack.config.js file
 9-npm install -D webpack-cli
+10-npm install -D html-webpack-plugin

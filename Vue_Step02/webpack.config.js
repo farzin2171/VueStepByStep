@@ -1,3 +1,16 @@
+const HtmlWebpackPlugin=require('html-webpack-plugin')
+const glob=require('glob');
+var htmlPages=glob.sync('./src/*.html')
+.map(path=>{
+    var chunk= path.replace('.html','').replace('./src/','')
+     return   new HtmlWebpackPlugin({
+        template:path,
+        filename:'pages/${chunk}.html',
+        chunks:[chunk,'vendor'],
+        inject:true
+    })
+})
+
 module.exports={
     entry:{
         index:'./src/js/index.js',
@@ -12,5 +25,19 @@ module.exports={
             chunks:'all',
             name:'vendor'
         }
-    }
+    },
+    plugins:[
+        // new HtmlWebpackPlugin({
+        //     template:'./src/index.html',
+        //     filename:'pages/index.html',
+        //     chunks:['index','vendor'],
+        //     inject:true
+        // }),
+        // new HtmlWebpackPlugin({
+        //     template:'./src/about.html',
+        //     filename:'pages/about.html',
+        //     chunks:['about','vendor'],
+        //     inject:true
+        // })
+    ].concat(htmlPages)
 }
