@@ -1,4 +1,6 @@
 const HtmlWebpackPlugin=require('html-webpack-plugin')
+const CleanWebpackPlugin=require('clean-webpack-plugin')
+
 const glob=require('glob');
 var htmlPages=glob.sync('./src/*.html')
 .map(path=>{
@@ -12,6 +14,7 @@ var htmlPages=glob.sync('./src/*.html')
 })
 
 module.exports={
+    watch:true,
     entry:{
         index:'./src/js/index.js',
         about:'./src/js/about.js'
@@ -39,5 +42,6 @@ module.exports={
         //     chunks:['about','vendor'],
         //     inject:true
         // })
+        new CleanWebpackPlugin()
     ].concat(htmlPages)
 }
