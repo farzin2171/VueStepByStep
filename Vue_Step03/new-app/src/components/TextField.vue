@@ -1,10 +1,10 @@
 <template>
-     <div class="text-input" style="width: 200px">
+     <div class="text-input" >
        <div>
-        <label >{{label}}</label>
-        <input :value="value" :class="valid" @input="$emit('input',$event.target.value)">
+        <label class="label" >{{label}}</label>
+        <input :value="value" :class="valid" @input="$emit('input',$event.target.value)" >
        </div>
-     <div v-if="textLimit>0" class="validation">{{inputCount}}/{{textLimit}}</div>
+     <div v-if="textLimit>0" class="validation" >{{inputCount}}/{{textLimit}}</div>
      </div>
 </template>
 <script lang="ts">
@@ -25,7 +25,10 @@ export default{
   },
   watch:{
     value:function(newValue,oldValue){
-     if(newValue.length>this.textLimit) this.$emit('input',oldValue);
+     if(newValue.length>this.textLimit) {
+         this.$emit('input',oldValue);
+           this.valid();
+         }
 
     }
   },
@@ -36,8 +39,15 @@ export default{
      isEmpty(){
        return this.value.length ===0;
      },
+     isExceededLimit(){
+       return this.value.length >this.textLimit;
+     },
      valid(){
-       return this.isEmpty ?"invalid":"valid"
+         if(this.isEmpty || this.isExceededLimit)
+             return "input is-danger"
+         else
+             return "input is-primary"
+       
      }
   }
     
