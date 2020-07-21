@@ -1,27 +1,54 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <div>
+     <TextField v-model="firstName" :textLimit=15 label="firstName"></TextField>
+     <TextField v-model="lastName" :textLimit=15 label="lastName"></TextField>
+
+     <div>
+        {{fullName}}
+      </div>
+    </div>
   </div>
+  
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
 
+import TextField from "./components/TextField"
 export default {
   name: "App",
+  data(){
+    return {
+       firstName:"",
+       lastName:""
+    }
+  },
+  computed:{
+    fullName(){
+      return this.firstName + " "+this.lastName
+    }
+  },
   components: {
-    HelloWorld
+    TextField
   }
 };
 </script>
 
 <style lang="stylus">
 #app
-  font-family Avenir, Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
   margin-top 60px
+  .text-input
+    label 
+      display block
+  input 
+    display block
+    width 100%
+  .validation
+      text-align right 
+      font-size 12px
+  input.valid
+    border 1px solid green
+  input.invalid
+    border 1px solid red
+
 </style>
