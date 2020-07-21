@@ -1,15 +1,19 @@
 <template>
   <div id="app">
     <div>
-     <TextField v-model="firstName" :textLimit=15 label="firstName"></TextField>
-     <TextField v-model="lastName" :textLimit=15 label="lastName"></TextField>
-     <SelectField label="Gender" v-model="gender" placeholder="select yourt gender" :options="genderList" ></SelectField>
-     <SelectField label="Age" v-model="age" placeholder="select yourt age" :options="ageList" ></SelectField>
-
+     <TextField v-model="form.firstName" :textLimit=15 label="firstName" :rules="firstNameRules"></TextField>
+     <TextField v-model="form.lastName" :textLimit=15 label="lastName"></TextField>
+     <SelectField label="Gender" v-model="form.gender" placeholder="select yourt gender" :options="genderList" ></SelectField>
+     <SelectField label="Age" v-model="form.age" placeholder="select yourt age" :options="ageList" ></SelectField>
+     <ckeditor :editor="form.editor" v-model="form.editorData" :config="form.editorConfig"></ckeditor>
     
        
      <div>
-        {{fullName}} - {{gender}} --{{age}}
+        {{form.fullName}} - {{form.gender}} --{{form.age}}
+      </div>
+
+      <div>
+        {{form}}
       </div>
     </div>
   </div>
@@ -20,14 +24,26 @@
 
 import TextField from "./components/TextField"
 import SelectField from "./components/SelectField"
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export default {
   name: "App",
   data(){
     return {
+       firstNameRules:[
+        v=>v.length>0 || "First name is requred",
+        v=>v.length<10 || "First name has to be less than 10 charcetr" 
+       ],
+       form:{
        firstName:"",
        lastName:"",
        gender:"",
-       age:""
+       age:"",
+       editor: ClassicEditor,
+       editorData: '<p>Content of the editor.</p>',
+       editorConfig: {
+                      // The configuration of the editor.
+                     }
+       }
     }
   },
   computed:{
@@ -68,9 +84,7 @@ export default {
   select 
      display block
     width 100%
-  .validation
-      text-align right   
-      font-size 12px
+ 
   input.valid
     border 1px solid green
   input.invalid
