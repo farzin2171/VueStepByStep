@@ -2,7 +2,7 @@
   <div id="app">
     <div>
      <TextField v-model="form.firstName" :textLimit=15 label="firstName" :rules="firstNameRules"></TextField>
-     <TextField v-model="form.lastName" :textLimit=15 label="lastName"></TextField>
+     <TextField v-model="form.lastName" :textLimit=15 label="lastName" :rules="lastNameRules"></TextField>
      <SelectField label="Gender" v-model="form.gender" placeholder="select yourt gender" :options="genderList" ></SelectField>
      <SelectField label="Age" v-model="form.age" placeholder="select yourt age" :options="ageList" ></SelectField>
      <ckeditor :editor="form.editor" v-model="form.editorData" :config="form.editorConfig"></ckeditor>
@@ -14,6 +14,13 @@
 
       <div>
         {{form}}
+      </div>
+      <div>
+          <button v-if="formValid">Validate</button> 
+         {{errorList}}
+      </div>
+      <div>
+         {{form.errors}}
       </div>
     </div>
   </div>
@@ -33,7 +40,12 @@ export default {
         v=>v.length>0 || "First name is requred",
         v=>v.length<10 || "First name has to be less than 10 charcetr" 
        ],
+        lastNameRules:[
+        v=>v.length>0 || "Last name is requred"
+       ],
        form:{
+       errors:{},
+       formValid:false,
        firstName:"",
        lastName:"",
        gender:"",
@@ -45,6 +57,30 @@ export default {
                      }
        }
     }
+  },
+  methods:
+  {
+    // validated(){
+    //    console.log(this.$children);
+    //    for(let i=0;i<this.$children.length;i++)
+    //    {
+    //      let child=this.$children[i];
+    //      console.log(child.isValid);
+    //      this.form.formValid=child.isValid===undefined || child.isValid==true;
+    //      if(!this.form.isValid)return;
+    //    }
+    // }
+  },
+  mounted(){
+    this.$children
+      .filter(c=>c.isValid !==undefined)
+      .forEach(c=>{
+         c.$watch("isValid",v=>{
+            console.info("Custome Watcher: ",c,v);
+            //this.form.errors[c._uid]=v;
+            this.$set(this.form.errors,c._uid,v);
+         },{immediate:true})
+      });
   },
   computed:{
     fullName(){
@@ -61,6 +97,13 @@ export default {
         {value:"1",text:"Female"},
         {value:"2",text:"Other"},
       ]
+    },
+    errorList(){
+       var err=Object.values(this.form.errors).filter(v=>v !==true);
+       return err;
+    },
+    formValid(){
+      return this.errorList.length ===0
     }
   },
   components: {
