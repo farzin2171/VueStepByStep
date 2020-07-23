@@ -1,8 +1,11 @@
 <template>
     <div>
-        <div v-if="summary" class="error-summary">
+        <slot name="summary" v-bind:errorList="errorList">
+           <div v-if="summary" class="error-summary">
+                <h3>Default Summary</h3>
            <div v-for="error in errorList" :key="`error-${error}`">{{error}}</div>
-        </div>
+           </div>
+        </slot>
         <slot>
         </slot>
        

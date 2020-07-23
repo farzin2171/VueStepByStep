@@ -1,7 +1,15 @@
 <template>
   <div id="app">
     <div>
-      <Form v-model="formValid" :summary="true">
+      <Form v-model="formValid" summary>
+        <template  v-slot:summary="{errorList}" >
+           <h3>Custom Summary</h3>
+           <div>
+              <ul>
+                <li v-for="error in errorList" :key="`error-${error}`">{{error}}</li>
+              </ul>
+           </div>
+        </template>
            <TextField v-model="form.firstName" :textLimit=15 label="firstName" :rules="firstNameRules"></TextField>
      <TextField v-model="form.lastName" :textLimit=15 label="lastName" :rules="lastNameRules"></TextField>
      <SelectField label="Gender" v-model="form.gender" placeholder="select yourt gender" :options="genderList" ></SelectField>
