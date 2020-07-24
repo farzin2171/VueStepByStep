@@ -11,6 +11,7 @@
 </template>
 <script lang="ts">
 export default {
+    name:"a-select",
     props:{
         label:{
             requred:false,

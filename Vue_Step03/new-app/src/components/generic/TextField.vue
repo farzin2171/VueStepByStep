@@ -13,6 +13,7 @@
 </template>
 <script lang="ts">
 export default{
+  name:"a-text",
   props:{
         value:{
             requred:true,

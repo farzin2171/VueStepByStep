@@ -3,7 +3,7 @@ import App from "./App.vue";
 import "bulma/css/bulma.css"
 import "@fortawesome/fontawesome-free/css/all.css"
 import CKEditor from '@ckeditor/ckeditor5-vue';
-
+import "./components/generic/index.js"
 Vue.config.productionTip = false;
 Vue.use( CKEditor );
 new Vue({
