@@ -2,41 +2,43 @@
   <div id="app">
     <div>
         <div>
-           <a @click="page='home'">Home</a>
-           <a @click="page='login'">Login</a>
+           <!-- <a @click="page='home'">Home</a>
+           <a @click="page='login'">Login</a> -->
+           <router-link to="/">Home</router-link>
+           <router-link to="/login">Login</router-link>
         </div> 
-
-       <component :is="renderComponent"></component>
+        <router-view></router-view>
+        <button @click="goToLogin">Go To Login</button>
+       <!-- <component :is="renderComponent"></component> -->
     </div>
   </div>
   
 </template>
 
 <script>
-
-import Home from "./Pages/Home"
-import Login from "./Pages/Login"
-
-
 export default {
   name: "App",
   data(){
    return {
-     page:"home",
-     components:Home
+     page:"home"
+    
    }
   },
-  computed: {
-     renderComponent(){
-       if(this.page ==="home") return Home;
-       else if (this.page === "login") return Login
-
-       return Home
+  methods:{
+     goToLogin(){
+        this.$router.push("/login");
      }
   },
+  computed: {
+    //  renderComponent(){
+    //    if(this.page ==="home") return Home;
+    //    else if (this.page === "login") return Login
+
+    //    return Home
+    //  }
+  },
   components:{
-    Home,
-    Login
+    
   }
   
 };
