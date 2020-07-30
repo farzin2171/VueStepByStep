@@ -19,7 +19,7 @@ export default {
   },
   methods:{
     login(){
-      this.$router.push("profile");
+      //this.$router.push("profile");
     }
   }
 }

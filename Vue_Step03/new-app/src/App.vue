@@ -6,6 +6,7 @@
            <a @click="page='login'">Login</a> -->
            <router-link to="/">Home</router-link>
            <router-link to="/login">Login</router-link>
+           <router-link to="/profile">Profile</router-link>
         </div> 
         <router-view></router-view>
         <button @click="goToLogin">Go To Login</button>
@@ -63,5 +64,7 @@ export default {
     border 1px solid green
   input.invalid
     border 1px solid red
+  a
+     padding 0 5px
 
 </style>

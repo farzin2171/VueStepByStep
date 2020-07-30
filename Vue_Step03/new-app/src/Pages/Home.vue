@@ -75,7 +75,23 @@ export default {
         {value:"2",text:"Other"},
       ]
      },
-  }
+  }, beforeRouteEnter (to, from, next) {
+       
+        next(vm=>{
+         let formString=localStorage.getItem('home-form') || null;
+      
+        if(formString !==null && formString !=="")
+        {
+          vm.form=JSON.parse(formString);
+        }
+        });
+    },
+    beforeRouteLeave (to,from,next) {
+     
+      let formString=JSON.stringify(this.form); 
+         localStorage.setItem('home-form',formString)
+          next();
+    },
 }
 </script>
 <style lang="stylus" scoped>
