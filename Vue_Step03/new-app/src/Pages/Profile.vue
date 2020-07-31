@@ -5,13 +5,20 @@
       <div>
           <router-view></router-view>
       </div>
-  </div>    
+      <div>
+           <p v-for="p in profiles" :key="p.id">
+               {{p.firstName}}
+           </p>
+      </div>
+  </div>       
 </template>
-<script lang="ts">
+<script>
+import  axios from 'axios'
 export default {
     data(){
         return {
-            name:""
+            name:"",
+            profiles:[]
         }
     },
     beforeRouteEnter (to, from, next) {
@@ -27,6 +34,10 @@ export default {
        let name=this.$route.params.name
        console.log(name);
        this.name= name===undefined ? "":name;
+       axios.get("http://localhost:49905/api/profile").then(res=>{
+           console.log(res.data);
+           this.profiles=res.data
+       })
     }
 }
 

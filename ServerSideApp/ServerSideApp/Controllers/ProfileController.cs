@@ -16,31 +16,49 @@ namespace ServerSideApp.Controllers
         public ProfileController(ProfileAdmin profileAdmin)
         {
             _profileAdmin = profileAdmin;
-        }
-        [HttpGet("{id}")]
-        public Profile GetProfile(int id)
-        {
-            return new Profile
+            profileAdmin.AddProfile(new Profile
             {
-                Id = id,
-                FirstName = "ff",
-                LastName = "fff",
-                Age = 22
-            };
+                Id = 1,
+                FirstName = "dd",
+                LastName = "dddd",
+                Age = 45
+
+            });
+        }
+        [HttpGet("")]
+        public List<Profile> GetProfiles()
+        {
+            return _profileAdmin.GetAll();
         }
 
-        public Profile CreateProfile(string name)
+        [HttpGet("{name}")]
+        public Profile GetProfile(string name)
         {
-            var profile= new Profile
-            {
-                
-                FirstName = name,
-                LastName = "fff",
-                Age = 22
-            };
+            return _profileAdmin.GetProfileByName(name);
+        }
+        [HttpPost]
+        public Profile CreateProfile(Profile profile)
+        {
+            
             _profileAdmin.AddProfile(profile);
             return profile;
         }
+        [HttpPut]
+        public IActionResult UpdateProfile(Profile profile)
+        {
+
+            _profileAdmin.UpdateProfile(profile);
+            return Ok();
+        }
+        [HttpDelete]
+        public IActionResult DeleteProfile(int id)
+        {
+            _profileAdmin.DeleteProfile(id);
+            return Ok();
+        }
+
+
+
 
 
     }
