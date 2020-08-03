@@ -12,7 +12,7 @@
      <a-text v-model="form.lastName" :textLimit=15 label="lastName" :rules="lastNameRules"></a-text>
      <a-select label="Gender" v-model="form.gender" placeholder="select yourt gender" :options="genderList" ></a-select>
      <a-select label="Age" v-model="form.age" placeholder="select yourt age" :options="ageList" ></a-select>
-     <ckeditor :editor="form.editor" v-model="form.editorData" :config="form.editorConfig"></ckeditor>
+     <ckeditor :editor="form.editor" v-model="form.bio" :config="editorConfig"></ckeditor>
     
        
      <div>
@@ -22,8 +22,7 @@
       <div>
         {{form}}
       </div>
-      <button v-if="formValid">Validate</button> 
-      <span v-else>Please fill out form</span>
+      <a-sbutton  :disabled="formValid" @click="createProfile" :loading="loading">Submit</a-sbutton>
       </a-form>
 </template>
 <script>
@@ -32,6 +31,10 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export default {
     data(){
     return {
+       loading:false,
+       editorConfig: {
+                      // The configuration of the editor.
+                     },
        formValid:false,
        firstNameRules:[
         v=>v.length>0 || "First name is requred",
@@ -47,18 +50,21 @@ export default {
        gender:"",
        age:"",
        editor: ClassicEditor,
-       editorData: '<p>Content of the editor.</p>',
-       editorConfig: {
-                      // The configuration of the editor.
-                     }
+       bio: '<p>Content of the editor.</p>',
        }
     }
   },
-  methods:
-  {
-   
+  methods:{
+     createProfile(){
+       
+       this.loading=true;
+        this.$api.post("profile",this.form).then(res=>{
+          this.loading=false;
+           this.$store.commit("ADD_PROFILE",res.data);
+           
+       })
+     }
   },
-  
   computed:{
     fullName(){
       return this.firstName + " "+this.lastName

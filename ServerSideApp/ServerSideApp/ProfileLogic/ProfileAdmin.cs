@@ -12,7 +12,14 @@ namespace ServerSideApp.ProfileLogic
         {
             profiles = new List<Profile>();
         }
-        public void AddProfile(Profile profile) => profiles.Add(profile);
+        public void AddProfile(Profile profile)
+        {
+            if (profiles.Any())
+                profile.Id = profiles.Count + 1;
+            else
+                profile.Id = 1;
+             profiles.Add(profile);
+        }
         public List<Profile> GetAll() => profiles;
         public Profile GetProfile(int id) => profiles.FirstOrDefault(p => p.Id == id);
         public Profile GetProfileByName(string name) => profiles.FirstOrDefault(p => p.FirstName == name);

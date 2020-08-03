@@ -6,19 +6,18 @@
           <router-view></router-view>
       </div>
       <div>
-           <p v-for="p in profiles" :key="p.id">
-               {{p.firstName}}
-           </p>
+           {{profile.firstName}} - {{profile.lastName}}
+           <br>
+           {{profile.age}} {{profile.gender}} {{profile.bio}}
       </div>
   </div>       
 </template>
 <script>
-import  axios from 'axios'
+
 export default {
     data(){
         return {
-            name:"",
-            profiles:[]
+            profile:{}
         }
     },
     beforeRouteEnter (to, from, next) {
@@ -29,16 +28,26 @@ export default {
           console.log("Route Leave");
           next();
     },
-    created(){
-       console.log(this.$route); 
-       let name=this.$route.params.name
+    watch:{
+      "$route.params.name":{
+          immediate:true,
+          handler(name){
+              this.loadProfile(name);
+          }
+      }
+    },
+    methods:{
+        loadProfile(name){
+      
        console.log(name);
        this.name= name===undefined ? "":name;
-       axios.get("http://localhost:49905/api/profile").then(res=>{
+       this.$api.get("profile/"+name).then(res=>{
            console.log(res.data);
-           this.profiles=res.data
+           this.profile=res.data
        })
+        }
     }
+    
 }
 
 </script>

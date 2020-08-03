@@ -9,8 +9,11 @@
            <router-link to="/profile">Profile</router-link>
         </div> 
         <router-view></router-view>
-        <button @click="goToLogin">Go To Login</button>
+        <!-- <button @click="goToLogin">Go To Login</button> -->
        <!-- <component :is="renderComponent"></component> -->
+       <div class="menu">
+          <router-link v-for="p in profiles" :key="p.id" :to="`/profile/${p.firstName}`">{{p.firstName}} - {{p.lastName}}</router-link>
+       </div>
     </div>
   </div>
   
@@ -23,20 +26,27 @@ export default {
    return {
      page:"home"
     
+    
    }
+  },
+  created(){
+    //Initilization
+    this.$store.dispatch("LOAD_PROFILES",this.$api)
+   
+  },
+  computed:{
+    profiles(){
+      return this.$store.getters.GET_PROFILES;
+    }
   },
   methods:{
      goToLogin(){
         this.$router.push("/login");
-     }
-  },
-  computed: {
-    //  renderComponent(){
-    //    if(this.page ==="home") return Home;
-    //    else if (this.page === "login") return Login
+     },
+     loadProfiles(){
+       
 
-    //    return Home
-    //  }
+     }
   },
   components:{
     
